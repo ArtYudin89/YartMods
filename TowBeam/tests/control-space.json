@@ -1,0 +1,51 @@
+{
+ "name": "Контроль: сейв без модов, игрок в космосе",
+ "world": {
+  "newgame": {
+   "seed": 7,
+   "set": {
+    "Name": "Control"
+   }
+  },
+  "mods": [],
+  "timeout": 1800
+ },
+ "mods": [],
+ "chain": true,
+ "after_fail": "stop",
+ "load_timeout": 900,
+ "action_timeout": 600,
+ "cases": [
+  {
+   "id": "takeoff",
+   "do": [
+    {
+     "turns": 1
+    },
+    {
+     "text": "OrderTakeOff(Player());"
+    },
+    {
+     "turns": 2
+    },
+    {
+     "text": "SFT('lab: inspace ' + ShipInNormalSpace(Player()));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "save",
+   "do": [
+    {
+     "save": "../dist/control_space.sav"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "name": "TowBeam: проверка сейва для ручной проверки (загрузка, грузы, буксир)",
+ "world": {"save": "../dist/TowBeam_test.sav"},
+ "mods": ["Tweaks\\UtilityFunctionsPack", "Artem\\TowBeam"],
+ "override": {"Artem\\TowBeam": "../build-debug"},
+ "chain": true,
+ "after_fail": "continue",
+ "load_timeout": 900,
+ "action_timeout": 600,
+ "stub": [{"fn": "StarMapBlinkingMessage", "mode": "record"},
+          {"fn": "Ether", "mode": "record"},
+          {"fn": "ShowEffect", "mode": "record"}],
+ "cases": [
+  {"id": "loaded",
+   "do": [{"text_file": "verify-save-items.txt"}],
+   "expect": {"verdict": "ok"}},
+  {"id": "tow",
+   "do": [{"text_file": "verify-save-tow.txt"},
+          {"text": "OrderMove(Player(), CoordX(Player()) + 1500, CoordY(Player()));"},
+          {"turns": 2},
+          {"text": "SFT('lab: after 2 turns ' + RunFunctionFromScript('TowBeam', 'State') + ' speed=' + ShipSpeed(Player()));"}],
+   "expect": {"verdict": "ok"}}
+ ]
+}

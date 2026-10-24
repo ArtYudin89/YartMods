@@ -1,0 +1,38 @@
+// Бортовые настройки мостика ExpPilotBridge (мостик 12). onDialogBegin (code.rsm) добавляет по строке
+// на каждую настройку через AddDialogInject; щелчок по строке запускает диалог отсюда: значение
+// переключается по кругу, и DAnswer('main') возвращает игрока на ту же страницу мостика,
+// где строка уже показывает новое значение (так же устроены RefHyperForsage и RefMoreBeautifulDrop).
+
+dialog("dTowWeapon", {code: function() {
+    g_Setting(1);
+    DAnswer('main');
+}});
+
+dialog("dTowMass", {code: function() {
+    g_Setting(2);
+    DAnswer('main');
+}});
+
+dialog("dTowJump", {code: function() {
+    g_Setting(3);
+    DAnswer('main');
+}});
+
+dialog("dTowNpc", {code: function() {
+    g_Setting(4);
+    DAnswer('main');
+}});
+
+dialog("dTowDamage", {code: function() {
+    g_Setting(5);
+    DAnswer('main');
+}});
+
+dialog("dTowOff", {code: function() {
+    g_Setting(6);
+    DAnswer('main');
+}});
+
+// Игра удаляет диалоги скрипта, у которого в Lang нет раздела Script.TowBeam с репликами.
+// Эта реплика нигде не показывается — она только гарантирует, что раздел не пуст.
+dialogMsg("MsgKeep", {text: "Буксировочный луч"});

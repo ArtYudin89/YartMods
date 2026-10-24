@@ -1,0 +1,11 @@
+/build/
+/.srmod/
+/build-debug/
+/.window/
+/tests/worlds/
+# built by tools/pack_test.py and tests/make-save.json (the tester guide in dist/ stays tracked)
+/dist/*.zip
+/dist/*.sav
+# Python caches of tools/
+__pycache__/
+*.pyc

@@ -1,0 +1,33 @@
+{
+ "name": "TowBeam: сейв для ручной проверки (UtilityFunctionsPack + TowBeam, корабль в космосе, грузы вокруг)",
+ "world": {"newgame": {"seed": 7, "set": {"Name": "Тестер"}},
+           "mods": ["Tweaks\\UtilityFunctionsPack", "Artem\\TowBeam"],
+           "override": {"Artem\\TowBeam": "../build-debug"},
+           "timeout": 1800},
+ "mods": ["Tweaks\\UtilityFunctionsPack", "Artem\\TowBeam"],
+ "override": {"Artem\\TowBeam": "../build-debug"},
+ "chain": true,
+ "after_fail": "stop",
+ "load_timeout": 900,
+ "action_timeout": 600,
+ "stub": [{"fn": "StarMapBlinkingMessage", "mode": "record"},
+          {"fn": "Ether", "mode": "record"},
+          {"fn": "ShowEffect", "mode": "record"}],
+ "cases": [
+  {"id": "takeoff",
+   "do": [{"turns": 1},
+          {"text": "OrderTakeOff(Player());"},
+          {"turns": 2},
+          {"text": "dword pl;\nfloat r;\nfloat x;\nfloat y;\npl = Player();\nx = 1.0 * CoordX(pl);\ny = 1.0 * CoordY(pl);\nr = sqrt(x * x + y * y);\nif (r < 1) {\n  r = 1;\n}\nOrderMove(pl, round(x + x / r * 600.0), round(y + y / r * 600.0));\nSFT('lab: start star=' + Name(ShipStar(pl)) + ' pos=' + CoordX(pl) + ',' + CoordY(pl) + ' inspace=' + ShipInNormalSpace(pl));"},
+          {"turns": 2},
+          {"text": "OrderNone(Player());\nSFT('lab: parked pos=' + CoordX(Player()) + ',' + CoordY(Player()) + ' inspace=' + ShipInNormalSpace(Player()) + ' speed=' + ShipSpeed(Player()) + ' hook=' + ShipHookPower(Player()) + '/' + ShipHookRange(Player()));"}],
+   "expect": {"verdict": "ok"}},
+  {"id": "prepare",
+   "do": [{"text_file": "make-save-prepare.txt"}],
+   "expect": {"verdict": "ok"}},
+  {"id": "save",
+   "do": [{"save": "../dist/TowBeam_test.sav"},
+          {"text": "SFT('lab: saved ' + RunFunctionFromScript('TowBeam', 'State'));"}],
+   "expect": {"verdict": "ok"}}
+ ]
+}

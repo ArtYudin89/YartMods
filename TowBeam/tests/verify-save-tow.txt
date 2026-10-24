@@ -1,0 +1,24 @@
+dword pl;
+dword st;
+dword it;
+dword heavy;
+dword hull;
+int i;
+pl = Player();
+st = ShipStar(pl);
+for (i = 0; i < StarItems(st); i = i + 1) {
+  it = StarItems(st, i);
+  if (Dist(pl, it) < 400) {
+    if (ItemType(it) == t_Hull) {
+      if (ItemSize(it) > 500) {
+        heavy = it;
+      }
+      else {
+        hull = it;
+      }
+    }
+  }
+}
+SFT('lab: heavy target ' + RunFunctionFromScript('TowBeam', 'Target', heavy, 1));
+SFT('lab: hull target ' + RunFunctionFromScript('TowBeam', 'Target', hull, 1));
+SFT('lab: state ' + RunFunctionFromScript('TowBeam', 'State') + ' speed=' + ShipSpeed(pl));

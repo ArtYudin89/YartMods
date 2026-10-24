@@ -1,0 +1,75 @@
+{
+ "name": "Мир для проверки в окне: мостик ExpPilotBridge, игрок после взлёта у Центра рейнджеров (сейв в tests/worlds)",
+ "world": {
+  "newgame": {
+   "seed": 7,
+   "set": {
+    "Name": "Bridge"
+   }
+  },
+  "mods": [
+   "Tweaks\\UtilityFunctionsPack",
+   "Tweaks\\TechnicalIssuesFixer",
+   "Expansion\\ExpBK",
+   "Expansion\\ExpPilotBridge",
+   "Artem\\TowBeam"
+  ],
+  "override": {
+   "Artem\\TowBeam": "../build-debug"
+  },
+  "timeout": 1800
+ },
+ "mods": [
+  "Tweaks\\UtilityFunctionsPack",
+  "Tweaks\\TechnicalIssuesFixer",
+  "Expansion\\ExpBK",
+  "Expansion\\ExpPilotBridge",
+  "Artem\\TowBeam"
+ ],
+ "override": {
+  "Artem\\TowBeam": "../build-debug"
+ },
+ "chain": true,
+ "after_fail": "stop",
+ "load_timeout": 900,
+ "action_timeout": 600,
+ "cases": [
+  {
+   "id": "takeoff",
+   "do": [
+    {
+     "turns": 1
+    },
+    {
+     "text": "OrderTakeOff(Player());"
+    },
+    {
+     "turns": 2
+    },
+    {
+     "text": "SFT('lab: inspace ' + ShipInNormalSpace(Player()) + ' tow ' + IsScriptActive('TowBeam') + ' at ' + CoordX(Player()) + ',' + CoordY(Player()) + ' in ' + Name(ShipStar(Player())) + ' bridge ' + CapitalShipStats(ShipItems(Player(), 0)));"
+    },
+    {
+     "text": "if (!CapitalShipStats(ShipItems(Player(), 0))) CapitalShipStats(ShipItems(Player(), 0), 3); SFT('lab: bridge now ' + CapitalShipStats(ShipItems(Player(), 0)));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "save",
+   "do": [
+    {
+     "save": "worlds/bridge_world.sav"
+    },
+    {
+     "text": "SFT('lab: saved');"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  }
+ ]
+}

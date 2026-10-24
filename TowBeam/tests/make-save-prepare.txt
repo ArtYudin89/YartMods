@@ -1,0 +1,56 @@
+dword pl;
+dword st;
+dword it;
+dword w;
+int slots;
+int k;
+int x;
+int y;
+pl = Player();
+st = ShipStar(pl);
+x = CoordX(pl);
+y = CoordY(pl);
+
+// Пушки во все свободные оружейные слоты — для режима «груз занимает оружейный слот».
+slots = ShipSlots(pl, 1);
+for (k = 1; k <= slots; k = k + 1) {
+  if (!ShipEqInSlot(pl, t_Weapon1, k)) {
+    if (k == 2) {
+      w = CreateEquipment(t_Weapon1, 10, 1, Maloc);
+    }
+    else {
+      w = CreateEquipment(t_Weapon2, 10, 1, Peleng);
+    }
+    AddItemToShip(pl, w);
+    ItemIsInUse(w, pl, 1, k);
+  }
+}
+ShipCalcParam(pl);
+SFT('lab: weapons ' + ShipCntWeapon(pl) + ' of ' + slots + ' slots, free hold ' + ShipFreeSpace(pl));
+
+// Грузы вокруг корабля: захват 1-го уровня поднимает до 40, предел буксира — 400.
+it = CreateGoods(t_Minerals, 150);
+DropItemInSystem(st, it, x + 180, y);
+SFT('lab: item minerals w=' + ItemSize(it));
+
+it = CreateEquipment(t_Engine, 60, 2, Maloc);
+DropItemInSystem(st, it, x + 130, y - 130);
+SFT('lab: item engine w=' + ItemSize(it));
+
+it = CreateHull(0, 300, 2, Gaal);
+DropItemInSystem(st, it, x, y - 200);
+SFT('lab: item hull300 w=' + ItemSize(it));
+
+it = CreateHull(3, 700, 2, Fei);
+DropItemInSystem(st, it, x - 230, y);
+SFT('lab: item hull700 w=' + ItemSize(it));
+
+it = CreateEquipment(t_Weapon6, 45, 2, People);
+DropItemInSystem(st, it, x + 150, y + 150);
+SFT('lab: item weapon w=' + ItemSize(it));
+
+it = CreateEquipment(t_Radar, 20, 1, Peleng);
+DropItemInSystem(st, it, x - 120, y + 170);
+SFT('lab: item radar w=' + ItemSize(it));
+
+SFT('lab: star items ' + StarItems(st) + ' player at ' + x + ',' + y + ' in ' + Name(st));

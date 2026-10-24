@@ -1,0 +1,17 @@
+// Минимальный мир служебного скрипта: стартует там, где игрок, и сразу (GRun в onGlobal).
+star("TowStar", {noKling: false, noComeKling: false});
+
+planet("TowPlanet", {star: "TowStar", race: ["Maloc", "Peleng", "People", "Fei", "Gaal"], owner: ["Maloc", "Peleng", "People", "Fei", "Gaal", "Kling", "None", "Pirate"], economy: ["Agriculture", "Industrial", "Mixed"], government: ["Anarchy", "Dictatorship", "Monarchy", "Republic", "Democracy"], rangeMin: 0, rangeMax: 100});
+
+ship({star: "TowStar", player: true, count: 1, owner: ["Maloc", "Peleng", "People", "Fei", "Gaal"], type: ["Ranger", "Warrior", "Pirate", "Transport", "Liner", "Diplomat"], speedMin: 0, speedMax: 10000, weapon: 0, cargoHook: 0, emptySpace: 0, statusTraderMin: 0, statusTraderMax: 100, statusWarriorMin: 0, statusWarriorMax: 100, statusPirateMin: 0, statusPirateMax: 100, strengthMin: 0, strengthMax: 0, ruins: ""});
+
+// Группа с игроком — как у RefHyperForsage/RefMoreBeautifulDrop: нужна для начала диалогов мостика.
+group("TowPlayer", {planet: "TowPlanet", state: "TowIdle", owner: ["Maloc", "Peleng", "People", "Fei", "Gaal"], type: ["Ranger", "Warrior", "Pirate", "Transport", "Liner", "Diplomat"], countMin: 1, countMax: 1, speedMin: 100, speedMax: 10000, weapon: 0, cargoHook: 0, emptySpace: 0, addPlayer: true, statusTraderMin: 0, statusTraderMax: 100, statusWarriorMin: 0, statusWarriorMax: 100, statusPirateMin: 0, statusPirateMax: 100, distSearch: 10000, strengthMin: 0, strengthMax: 0, ruins: ""});
+
+// Пустые именованные контейнеры: предмет, занесённый в такой объект, NPC не подбирают
+// и не расстреливают как мусор (CanCargoHookHandleItem и уборка мусора в движке).
+item("Cargo0", {mainType: "Unknown", size: 10, level: 1, radius: 150, owner: "None"});
+item("Cargo1", {mainType: "Unknown", size: 10, level: 1, radius: 150, owner: "None"});
+item("Cargo2", {mainType: "Unknown", size: 10, level: 1, radius: 150, owner: "None"});
+item("Cargo3", {mainType: "Unknown", size: 10, level: 1, radius: 150, owner: "None"});
+item("Cargo4", {mainType: "Unknown", size: 10, level: 1, radius: 150, owner: "None"});

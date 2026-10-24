@@ -1,0 +1,234 @@
+{
+ "name": "TowBeam: буксировка в игре своей сборкой (старт, захват, полёт, отцепка, обрыв, склад, прыжок)",
+ "world": {
+  "newgame": {
+   "seed": 7,
+   "set": {
+    "Name": "SrLabTow"
+   }
+  },
+  "mods": [
+   "Tweaks\\UtilityFunctionsPack",
+   "Artem\\TowBeam"
+  ],
+  "override": {
+   "Artem\\TowBeam": "../build"
+  },
+  "timeout": 1800
+ },
+ "mods": [
+  "Tweaks\\UtilityFunctionsPack",
+  "Artem\\TowBeam"
+ ],
+ "override": {
+  "Artem\\TowBeam": "../build"
+ },
+ "chain": true,
+ "after_fail": "continue",
+ "load_timeout": 900,
+ "action_timeout": 600,
+ "stub": [
+  {
+   "fn": "StarMapBlinkingMessage",
+   "mode": "record"
+  },
+  {
+   "fn": "Ether",
+   "mode": "record"
+  },
+  {
+   "fn": "ShowEffect",
+   "mode": "record"
+  },
+  {
+   "fn": "PlayerBridge",
+   "mode": "answer",
+   "value": 0,
+   "kind": "int"
+  }
+ ],
+ "cases": [
+  {
+   "id": "arith",
+   "do": [
+    {
+     "text": "float f;\nfloat g;\nSFT('lab: a ' + (0 - 0.75));\nSFT('lab: b ' + (0.0 - 0.75));\nSFT('lab: c ' + (3 / 2.0));\nSFT('lab: d ' + (1.0 * 3 / 2));\nf = 0 - 0.75;\nSFT('lab: e ' + f);\ng = '2.5';\nSFT('lab: f ' + g);\nSFT('lab: g ' + (0.0 - cos(0.0)));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "boot",
+   "do": [
+    {
+     "turns": 1
+    },
+    {
+     "text": "SFT('lab: active ' + IsScriptActive('TowBeam'));\nSFT('lab: info ' + (ShipFindCustomShipInfoByType(Player(), 'TowBeam_Info') >= 0));\nSFT('lab: onplanet ' + int(GetShipPlanet(Player())) + ' inspace ' + ShipInNormalSpace(Player()));\nSFT('lab: state ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "takeoff",
+   "do": [
+    {
+     "text": "OrderTakeOff(Player());"
+    },
+    {
+     "turns": 2
+    },
+    {
+     "text": "SFT('lab: inspace ' + ShipInNormalSpace(Player()) + ' speed ' + ShipSpeed(Player()) + ' hook ' + ShipHookPower(Player()) + '/' + ShipHookRange(Player()));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "attach",
+   "do": [
+    {
+     "text": "dword pl;\ndword st;\ndword it;\npl = Player();\nst = ShipStar(pl);\nit = CreateGoods(t_Minerals, 150);\nDropItemInSystem(st, it, CoordX(pl) + 80, CoordY(pl));\nSFT('lab: item ' + Id(it) + ' w=' + ItemSize(it) + ' in=' + ItemIn(it, st) + ' script=' + ItemInScript(it));\nSFT('lab: before speed=' + ShipSpeed(pl) + ' bonmass=' + ShipSpecialBonuses(pl, bonMass) + ' block=' + ShipStatusEffect(pl, 3));\nSFT('lab: hold free=' + ShipFreeSpace(pl) + ' goods=' + GoodsAdd(pl, t_Minerals, 150));\nShipCalcParam(pl);\nSFT('lab: hold speed=' + ShipSpeed(pl) + ' free=' + ShipFreeSpace(pl));\nGoodsAdd(pl, t_Minerals, -150);\nShipCalcParam(pl);\nSFT('lab: hold emptied speed=' + ShipSpeed(pl) + ' free=' + ShipFreeSpace(pl));\nSFT('lab: check ' + RunFunctionFromScript('TowBeam', 'Target', it, 0));\nSFT('lab: target ' + RunFunctionFromScript('TowBeam', 'Target', it, 1));\nSFT('lab: after speed=' + ShipSpeed(pl) + ' bonmass=' + ShipSpecialBonuses(pl, bonMass) + ' block=' + ShipStatusEffect(pl, 3) + ' script=' + ItemInScript(it));\nSFT('lab: state ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "fly",
+   "do": [
+    {
+     "text": "OrderMove(Player(), CoordX(Player()) + 3000, CoordY(Player()));"
+    },
+    {
+     "turns": 1
+    },
+    {
+     "text": "SFT('lab: t1 ' + RunFunctionFromScript('TowBeam', 'State') + ' angle=' + ShipAngle(Player()) + ' speed=' + ShipSpeed(Player()));"
+    },
+    {
+     "turns": 1
+    },
+    {
+     "text": "SFT('lab: t2 ' + RunFunctionFromScript('TowBeam', 'State') + ' angle=' + ShipAngle(Player()) + ' block=' + ShipStatusEffect(Player(), 3));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "second",
+   "do": [
+    {
+     "text": "dword pl;\ndword it;\npl = Player();\nit = CreateEquipment(t_Engine, 60, 1, Maloc);\nDropItemInSystem(ShipStar(pl), it, CoordX(pl) - 60, CoordY(pl) + 40);\nSFT('lab: second ' + RunFunctionFromScript('TowBeam', 'Target', it, 1) + ' w=' + ItemSize(it));\nSFT('lab: state ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "text": "OrderMove(Player(), CoordX(Player()), CoordY(Player()) - 3000);"
+    },
+    {
+     "turns": 2
+    },
+    {
+     "text": "SFT('lab: chain ' + RunFunctionFromScript('TowBeam', 'State') + ' angle=' + ShipAngle(Player()));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "release-one",
+   "do": [
+    {
+     "text": "dword it;\nit = IdToItem(int(GetParFromString(GetParFromString(RunFunctionFromScript('TowBeam', 'State'), ' ', 1, 0), ',', 1, 0)));\nSFT('lab: release ' + RunFunctionFromScript('TowBeam', 'Target', it, 1) + ' script=' + ItemInScript(it));\nSFT('lab: state ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "release-all",
+   "do": [
+    {
+     "text": "RunFunctionFromScript('TowBeam', 'Key', 1);\nSFT('lab: state ' + RunFunctionFromScript('TowBeam', 'State') + ' bonmass=' + ShipSpecialBonuses(Player(), bonMass) + ' block=' + ShipStatusEffect(Player(), 3));\nSFT('lab: unblock ' + ShipStatusEffect(Player(), 3));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "hook-break",
+   "do": [
+    {
+     "text": "dword pl;\ndword it;\npl = Player();\nit = CreateGoods(t_Minerals, 120);\nDropItemInSystem(ShipStar(pl), it, CoordX(pl) + 70, CoordY(pl));\nSFT('lab: attach ' + RunFunctionFromScript('TowBeam', 'Target', it, 1));\nItemIsInUse(ShipEqInSlot(pl, t_CargoHook), pl, 0);\nSFT('lab: hook off ' + int(ShipEqInSlot(pl, t_CargoHook)));"
+    },
+    {
+     "turns": 1
+    },
+    {
+     "text": "SFT('lab: state ' + RunFunctionFromScript('TowBeam', 'State'));\ndword pl;\ndword hook;\nint i;\npl = Player();\nfor (i = 1; i < ShipItems(pl); i = i + 1) {\n  if (ItemType(ShipItems(pl, i)) == t_CargoHook) {\n    hook = ShipItems(pl, i);\n  }\n}\nItemIsInUse(hook, pl, 1);\nSFT('lab: hook back ' + int(ShipEqInSlot(pl, t_CargoHook)));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "storage",
+   "do": [
+    {
+     "text": "dword pl;\ndword st;\ndword it;\ndword p;\ndword best;\nint i;\nfloat d;\nfloat bd;\npl = Player();\nst = ShipStar(pl);\nbd = 1000000;\nfor (i = 0; i < StarPlanets(st); i = i + 1) {\n  p = StarPlanets(st, i);\n  if (PlanetOwner(p) != None) {\n    d = Dist(pl, p);\n    if (d < bd) {\n      bd = d;\n      best = p;\n    }\n  }\n}\nit = CreateGoods(t_Minerals, 100);\nDropItemInSystem(st, it, CoordX(pl) + 70, CoordY(pl));\nSFT('lab: attach ' + RunFunctionFromScript('TowBeam', 'Target', it, 1) + ' planet=' + Name(best) + ' dist=' + round(bd));\nOrderLanding(pl, best);"
+    },
+    {
+     "turns": 6
+    },
+    {
+     "text": "dword pl;\npl = Player();\nSFT('lab: landed ' + int(GetShipPlanet(pl)) + ' storage_before=' + StorageItems());\nRunFunctionFromScript('TowBeam', 'Form');\nSFT('lab: storage_after=' + StorageItems() + ' state ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "pin": [
+    {
+     "fn": "CurrentForm",
+     "value": "Planet",
+     "kind": "str"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "jump-break",
+   "do": [
+    {
+     "text": "OrderTakeOff(Player());"
+    },
+    {
+     "turns": 2
+    },
+    {
+     "text": "dword pl;\ndword it;\ndword other;\npl = Player();\nit = CreateGoods(t_Minerals, 110);\nDropItemInSystem(ShipStar(pl), it, CoordX(pl) + 70, CoordY(pl));\nSFT('lab: attach ' + RunFunctionFromScript('TowBeam', 'Target', it, 1) + ' star=' + Name(ShipStar(pl)));\nother = StarNearbyStars(ShipStar(pl), 1);\nSFT('lab: jump to ' + Name(other));\nOrderJump(pl, other);"
+    },
+    {
+     "turns": 12
+    },
+    {
+     "text": "SFT('lab: now star=' + Name(ShipStar(Player())) + ' inspace=' + ShipInNormalSpace(Player()) + ' state ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  }
+ ]
+}

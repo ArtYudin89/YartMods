@@ -1,0 +1,243 @@
+{
+ "world": {
+  "newgame": {
+   "seed": 7,
+   "set": {
+    "Name": "SrLabTow"
+   }
+  },
+  "mods": [
+   "Tweaks\\UtilityFunctionsPack",
+   "Artem\\TowBeam"
+  ],
+  "override": {
+   "Artem\\TowBeam": "../build"
+  },
+  "timeout": 1800
+ },
+ "mods": [
+  "Tweaks\\UtilityFunctionsPack",
+  "Artem\\TowBeam"
+ ],
+ "override": {
+  "Artem\\TowBeam": "../build"
+ },
+ "chain": true,
+ "after_fail": "continue",
+ "load_timeout": 900,
+ "action_timeout": 600,
+ "stub": [
+  {
+   "fn": "StarMapBlinkingMessage",
+   "mode": "record"
+  },
+  {
+   "fn": "Ether",
+   "mode": "record"
+  },
+  {
+   "fn": "ShowEffect",
+   "mode": "record"
+  },
+  {
+   "fn": "PlayerBridge",
+   "mode": "answer",
+   "value": 0,
+   "kind": "int"
+  }
+ ],
+ "name": "TowBeam: диалоги бортовых настроек",
+ "cases": [
+  {
+   "id": "boot",
+   "do": [
+    {
+     "turns": 1
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "dTowWeapon",
+   "script": "Script.TowBeam",
+   "do": [
+    {
+     "dialog": "dTowWeapon"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowWeapon"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "dTowMass",
+   "script": "Script.TowBeam",
+   "do": [
+    {
+     "dialog": "dTowMass"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowMass"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowMass"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowMass"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowMass"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowMass"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "dTowJump",
+   "script": "Script.TowBeam",
+   "do": [
+    {
+     "dialog": "dTowJump"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowJump"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowJump"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "dTowNpc",
+   "script": "Script.TowBeam",
+   "do": [
+    {
+     "dialog": "dTowNpc"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowNpc"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "dTowDamage",
+   "script": "Script.TowBeam",
+   "do": [
+    {
+     "dialog": "dTowDamage"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowDamage"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowDamage"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowDamage"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "dialog": "dTowDamage"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "off-on",
+   "script": "Script.TowBeam",
+   "do": [
+    {
+     "dialog": "dTowOff"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));\nSFT('lab: info ' + ShipFindCustomShipInfoByType(Player(), 'TowBeam_Info'));"
+    },
+    {
+     "text": "RunFunctionFromScript('TowBeam', 'Key', 0);"
+    },
+    {
+     "dialog": "dTowOff"
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));\nSFT('lab: info ' + ShipFindCustomShipInfoByType(Player(), 'TowBeam_Info'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  }
+ ]
+}

@@ -1,0 +1,89 @@
+{
+ "world": {
+  "newgame": {
+   "seed": 7,
+   "set": {
+    "Name": "SrLabTow"
+   }
+  },
+  "mods": [
+   "Tweaks\\UtilityFunctionsPack",
+   "Artem\\TowBeam"
+  ],
+  "override": {
+   "Artem\\TowBeam": "../build-debug"
+  },
+  "timeout": 1800
+ },
+ "mods": [
+  "Tweaks\\UtilityFunctionsPack",
+  "Artem\\TowBeam"
+ ],
+ "override": {
+  "Artem\\TowBeam": "../build-debug"
+ },
+ "chain": true,
+ "after_fail": "continue",
+ "load_timeout": 900,
+ "action_timeout": 600,
+ "stub": [
+  {
+   "fn": "StarMapBlinkingMessage",
+   "mode": "record"
+  },
+  {
+   "fn": "Ether",
+   "mode": "record"
+  },
+  {
+   "fn": "ShowEffect",
+   "mode": "record"
+  },
+  {
+   "fn": "PlayerBridge",
+   "mode": "answer",
+   "value": 0,
+   "kind": "int"
+  }
+ ],
+ "name": "TowBeam: отладочная клавиша 9 (сборка build-debug)",
+ "cases": [
+  {
+   "id": "boot",
+   "do": [
+    {
+     "turns": 1
+    },
+    {
+     "text": "OrderTakeOff(Player());"
+    },
+    {
+     "turns": 2
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  },
+  {
+   "id": "key9",
+   "do": [
+    {
+     "text": "RunFunctionFromScript('TowBeam', 'Key', 2);\nSFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));"
+    },
+    {
+     "turns": 2
+    },
+    {
+     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));\nSFT('lab: speed ' + ShipSpeed(Player()) + ' angle ' + ShipAngle(Player()));"
+    }
+   ],
+   "expect": {
+    "verdict": "ok"
+   }
+  }
+ ]
+}

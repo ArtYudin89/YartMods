@@ -1,0 +1,13 @@
+# Store every file byte-for-byte: no line-ending conversion, no re-encoding.
+# This PC has core.autocrlf=true (system config); without this line a checkout or clone turns the
+# LF-only files (*.rsm, tests, tools, README) into CRLF. src/ModuleInfo.txt and src/CFG/**/*.txt are
+# UTF-16LE with BOM (the game's text format): git leaves them alone only because it sees NUL bytes,
+# so they are protected explicitly here as well.
+* -text
+
+# Readable diffs for the UTF-16 files. The driver is per clone (not versioned); set it once with
+#   git config diff.utf16.textconv "iconv -f UTF-16 -t UTF-8"
+# Without it git prints "Binary files differ" for them; the files themselves are never touched.
+src/ModuleInfo.txt diff=utf16
+src/CFG/*.txt diff=utf16
+src/CFG/*/*.txt diff=utf16

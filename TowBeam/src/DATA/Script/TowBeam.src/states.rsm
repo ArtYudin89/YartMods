@@ -1,0 +1,2 @@
+// Группа игрока ничего не делает: вся работа — в коде инфошки TowBeam_Info (Lang) и функциях code.rsm.
+state("TowIdle", {move: "none", takeAllItem: false});

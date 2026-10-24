@@ -1,0 +1,10 @@
+// TowBeam — буксировочный луч для Space Rangers HD: A War Apart.
+// Любой исправный захват может тянуть предметы из космоса, не поднимая их на борт.
+// Сборка: `srmod build` (src/ -> build/), установка: `srmod deploy`.
+scriptName("TowBeam");
+
+import from './vars.rsm';      // настройки и состояние буксира
+import from './world.rsm';     // минимальный мир скрипта и пять контейнеров для грузов
+import from './states.rsm';    // единственное состояние группы игрока
+import from './dialogs.rsm';   // пункты бортовых настроек мостика
+import from './code.rsm';      // вся логика: функции g_* вызывает игра через RunFunctionFromScript

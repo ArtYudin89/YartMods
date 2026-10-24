@@ -1,0 +1,13 @@
+dword pl;
+dword st;
+dword it;
+int i;
+pl = Player();
+st = ShipStar(pl);
+SFT('lab: active ' + IsScriptActive('TowBeam') + ' info ' + (ShipFindCustomShipInfoByType(pl, 'TowBeam_Info') >= 0) + ' inspace ' + ShipInNormalSpace(pl) + ' weapons ' + ShipCntWeapon(pl) + '/' + ShipSlots(pl, 1));
+for (i = 0; i < StarItems(st); i = i + 1) {
+  it = StarItems(st, i);
+  if (Dist(pl, it) < 400) {
+    SFT('lab: near ' + Name(it) + ' w=' + ItemSize(it) + ' d=' + round(Dist(pl, it)) + ' check=' + RunFunctionFromScript('TowBeam', 'Target', it, 0));
+  }
+}
