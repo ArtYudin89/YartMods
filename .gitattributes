@@ -1,0 +1,4 @@
+# Store every file byte-for-byte: no line-ending conversion, no re-encoding (this PC has
+# core.autocrlf=true in its system config). The UTF-16 game texts of each mod and their readable
+# diffs are set up in that mod's own .gitattributes.
+* -text

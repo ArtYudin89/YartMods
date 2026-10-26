@@ -1,0 +1,5 @@
+# built by tools/release.py
+/dist/
+# Python caches of tools/
+__pycache__/
+*.pyc
