@@ -25,7 +25,11 @@
 не загрузится (в журнале игры — «Failed to load script: Script.TowBeam»). Пункт «выключить» в бортовых
 настройках — пауза: отцепляет грузы и снимает всё, что мод добавил кораблю, но скрипт остаётся в сейве.
 
-Зависимость — `UtilityFunctionsPack` (из него `GetShipPath`, `GetParFromString` и др.).
+Зависимость — `UtilityFunctionsPack` (из него `GetShipPath`, `GetParFromString`, `ParsCountFromString`).
+Проверен в Steam-версии (движок 2.1.2500, UtilityFunctionsPack из FixesVersion 1.6.9). По разбору файлов
+подходят сборки Universe и Redux; в Original не работает: в UtilityFunctionsPack 2022 года нет `GetShipPath`,
+и сам скрипт до этих функций не дотянется (в нём нет общих имён, которые объявляет UtilityFunctionsPack
+сборок 2024+), а в движке 2.1.2442 нет `RunFunctionFromScript` и функций наведения.
 
 ## Устройство
 

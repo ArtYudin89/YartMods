@@ -1,6 +1,6 @@
 # YartMods — правила для Claude
 
-Public `ArtYudin89/YartMods`: моды Артёма (ник Yart) для SR HD. Папка верхнего уровня с `srmod.json` = мод,
+Public `ArtYudin89/YartMods`: моды Yart для SR HD. Папка верхнего уровня с `srmod.json` = мод,
 проект sr-modkit; ставится в `Mods/Artem/<Мод>` — пути к картинкам зашиты в мод, папку не менять. Статус и
 решения по модам — в памяти (`project_sr_tow_beam`), задачи — в Пульте (проект `tow`).
 
@@ -10,7 +10,7 @@ Public `ArtYudin89/YartMods`: моды Артёма (ник Yart) для SR HD. 
 2. `python tools/release.py` — собирает все моды и `dist/YartMods.zip`. Сверить список файлов в выводе:
    только `Mods/…`; сборку мода сравнить с прошлой проверенной — каждое отличие объяснимо.
 3. Дифф с прошлого релиза — на секреты и персональные данные. Коммиты — только от
-   `SR Mods <sr-mods-bot@localhost>` (локальный конфиг клона), не от имени Артёма.
+   `SR Mods <sr-mods-bot@localhost>` (локальный конфиг клона), не от личного имени и почты.
 4. `git push`, затем `python tools/release.py --publish vX.Y.Z --notes <файл>` (новый тег; имя архива
    всегда `YartMods.zip`, иначе сломается ссылка `releases/latest/download/YartMods.zip`).
 5. Агрегатор забирает архив по этой ссылке ночным прогоном (03:00 UTC); юниты — `yartmods*` в
