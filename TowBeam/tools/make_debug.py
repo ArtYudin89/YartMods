@@ -16,7 +16,7 @@ import sys
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SR = os.path.join(os.path.dirname(ROOT), "sr-lab", "sr.py")
+SR = os.path.join(os.path.dirname(os.path.dirname(ROOT)), "sr-lab", "sr.py")  # next to the YartMods clone
 SRC = os.path.join(ROOT, "build")
 DST = os.path.join(ROOT, "build-debug")
 

@@ -27,7 +27,7 @@ import threading
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LAB = os.path.join(os.path.dirname(ROOT), 'sr-lab')
+LAB = os.path.join(os.path.dirname(os.path.dirname(ROOT)), 'sr-lab')  # next to the YartMods clone
 sys.path.insert(0, LAB)
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 

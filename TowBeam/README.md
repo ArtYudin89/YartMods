@@ -47,14 +47,17 @@
 
 ## Сборка и проверка
 
+Команды — из папки `TowBeam`. Сборщик [sr-modkit](https://github.com/ArtYudin89/sr-modkit) и
+лаборатория sr-lab (не публикуется) лежат рядом с папкой репозитория YartMods.
+
 ```
-python -m srmod build                 # src/ -> build/  (PYTHONPATH=..\sr-modkit)
+python -m srmod build                 # src/ -> build/  (PYTHONPATH=..\..\sr-modkit)
 python tools/make_debug.py            # build/ -> build-debug/ с Debug=1 (клавиша 9: ящик на буксир и полёт вперёд)
-python ..\sr-lab\sr.py test local build --as Artem\TowBeam --deps steam --turns 5 --where host
-python ..\sr-lab\sr.py script run tests\lab-tow.json      # захват, полёт, цепочка, отцепка, обрывы, склад, прыжок
-python ..\sr-lab\sr.py script run tests\lab-modes.json    # режимы настроек, обрывы, загрузка сейва
-python ..\sr-lab\sr.py script run tests\lab-dialogs.json  # пункты бортовых настроек
-python ..\sr-lab\sr.py script run tests\lab-debug.json    # отладочная клавиша 9 (build-debug)
+python ..\..\sr-lab\sr.py test local build --as Artem\TowBeam --deps steam --turns 5 --where host
+python ..\..\sr-lab\sr.py script run tests\lab-tow.json      # захват, полёт, цепочка, отцепка, обрывы, склад, прыжок
+python ..\..\sr-lab\sr.py script run tests\lab-modes.json    # режимы настроек, обрывы, загрузка сейва
+python ..\..\sr-lab\sr.py script run tests\lab-dialogs.json  # пункты бортовых настроек
+python ..\..\sr-lab\sr.py script run tests\lab-debug.json    # отладочная клавиша 9 (build-debug)
 ```
 
 Установка в игру: `python -m srmod deploy --game "<папка игры>"` — ссылка `Mods\Artem\TowBeam` → `build/`;
@@ -67,7 +70,7 @@ python ..\sr-lab\sr.py script run tests\lab-debug.json    # отладочная
 компьютером не пользоваться, прогоны — по одному).
 
 ```
-python ..\sr-lab\sr.py script run tests\bridge-world.json   # мир с ExpPilotBridge после взлёта -> tests\worlds\
+python ..\..\sr-lab\sr.py script run tests\bridge-world.json   # мир с ExpPilotBridge после взлёта -> tests\worlds\
 python tools\make_variant.py beam_D2 BeamEffect=Weapon.10 BeamPalette=2   # вариант настроек -> .window\variants\
 set VS_MODS=Tweaks/UtilityFunctionsPack,Tweaks/TechnicalIssuesFixer,Expansion/ExpBK,Expansion/ExpPilotBridge,Artem/TowBeam
 python tools\window_session.py tests\worlds\bridge_world.sav vs-bridge шаги.json   # снимки -> .window\shots\
