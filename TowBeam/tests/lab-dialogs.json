@@ -216,27 +216,35 @@
    }
   },
   {
-   "id": "off-on",
+   "id": "off-remove",
    "script": "Script.TowBeam",
    "do": [
     {
      "dialog": "dTowOff"
     },
     {
-     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));\nSFT('lab: info ' + ShipFindCustomShipInfoByType(Player(), 'TowBeam_Info'));"
+     "text": "SFT('lab: infoRemoved=' + (ShipFindCustomShipInfoByType(Player(), 'TowBeam_Info') < 0));"
     },
     {
-     "text": "RunFunctionFromScript('TowBeam', 'Key', 0);"
+     "turns": 1
     },
     {
-     "dialog": "dTowOff"
+     "text": "SFT('lab: removed=' + (IsScriptActive('TowBeam') == 0) + ' runs=' + GCntRun('TowBeam'));"
     },
     {
-     "text": "SFT('lab: ' + RunFunctionFromScript('TowBeam', 'State'));\nSFT('lab: info ' + ShipFindCustomShipInfoByType(Player(), 'TowBeam_Info'));"
+     "turns": 2
+    },
+    {
+     "text": "SFT('lab: removed=' + (IsScriptActive('TowBeam') == 0) + ' runs=' + GCntRun('TowBeam'));"
     }
    ],
    "expect": {
-    "verdict": "ok"
+    "verdict": "ok",
+    "output": [
+     "lab: infoRemoved=1",
+     "lab: removed=1 runs=1",
+     "lab: removed=1 runs=1"
+    ]
    }
   }
  ]
