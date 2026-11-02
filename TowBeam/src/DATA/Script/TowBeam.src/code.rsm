@@ -886,7 +886,7 @@ export function onInit() {
     TB_Refresh();
   }
 
-  // Бортовые настройки: переключить по кругу (1 оружие, 2 предел массы, 3 прыжок, 4 NPC, 5 урон, 6 выключить/включить).
+  // Бортовые настройки: 1 оружие, 2 предел массы, 3 прыжок, 4 NPC, 5 урон, 6 убрать из партии.
   function g_Setting(int which) {
     dword pl;
     pl = Player();
@@ -940,23 +940,17 @@ export function onInit() {
       }
     }
     else if (which == 6) {
-      if (vOff) {
-        vOff = 0;
-        if (ShipFindCustomShipInfoByType(pl, 'TowBeam_Info') < 0) {
-          ShipAddCustomShipInfo(pl, 'TowBeam_Info', 'NoShow');
-        }
+      if (vCount > 0) {
+        TB_ReleaseAll('ReleasedAll');
       }
-      else {
-        if (vCount > 0) {
-          TB_ReleaseAll('ReleasedAll');
-        }
-        vOff = 1;
-        TB_Refresh();
-        TB_Unblock();
-        if (ShipFindCustomShipInfoByType(pl, 'TowBeam_Info') >= 0) {
-          ShipDeleteCustomShipInfo(pl, 'TowBeam_Info');
-        }
+      vOff = 1;
+      TB_Refresh();
+      TB_Unblock();
+      if (ShipFindCustomShipInfoByType(pl, 'TowBeam_Info') >= 0) {
+        ShipDeleteCustomShipInfo(pl, 'TowBeam_Info');
       }
+      // Без привязки к игроку движок удалит скрипт в конце следующего хода.
+      ShipOut(pl);
       exit;
     }
     TB_Refresh();
@@ -991,7 +985,9 @@ export function onInit() {
 }
 
 export function onGlobal() {
-  GRun();
+  if (GCntRun('TowBeam') == 0) {
+    GRun();
+  }
 }
 
 export function onTurn() {
@@ -1001,9 +997,9 @@ export function onTurn() {
 // Бортовые настройки мостика ExpPilotBridge: страница 12. Без мостика страницы нет — работают значения по умолчанию.
 export function onDialogBegin() {
   str v;
-  if (PlayerBridge() == 12) {
+  if (PlayerBridge() == 12 && IsScriptActive('TowBeam')) {
     if (vOff) {
-      AddDialogInject('dTowOff', '', 'snap~' + CT('TowBeam.Set.TurnOn'), 11);
+      AddDialogInject('dTowOff', '', 'snap~' + CT('TowBeam.Set.TurnOff'), 11);
       exit;
     }
     if (sWeapon == 0) {
